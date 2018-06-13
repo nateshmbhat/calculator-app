@@ -216,22 +216,24 @@ class Utility extends AppCompatActivity{
 
         String postfix  = new String() ;
 
-        String temp =""  ;int  runlength = 1  ;
+        String temp =""  ;int  runlength = 1 ;
         String operand = "" ;
-
-        s = '0' + s ;
 
         for(int i =0 ; i<s.length() ; i+=runlength)
         {
-            operand="" ;
-
-            runlength = 1 ;
+            operand="" ; runlength = 1 ;
 
             char c =s.charAt(i) ;
             if(c==' ') continue ;
 
-            if(Character.isDigit(c) )
+            if(Character.isDigit(c))
                 operand+=c ;
+
+            else if ((c=='-' && !Character.isDigit(i-1)))
+            {
+                operand+= Character.toString(c)+s.charAt(i+1) ;
+                i+=1 ;
+            }
 
             while(i+runlength<s.length() && (Character.isDigit(c) || c=='.') && (Character.isDigit(s.charAt(i+runlength)) || s.charAt(i+runlength)=='.'))
             {
