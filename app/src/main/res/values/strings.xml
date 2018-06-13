@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">calculator</string>
+    <string name="string1">string1</string>
+
+    <array name="contries">
+        <item>India</item>
+        <item>US</item>
+        <item>CHINA</item>
+        <item>India</item>
+        <item>India</item>
+        <item>India</item>
+        <item>India</item>
+        <item>India</item>
+    </array>
 </resources>
