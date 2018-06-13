@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Button : " , button.getText().toString()) ;
 
 
-
-                    if(button.getText().toString().equals("DEL"))
+                    String btntext = button.getText().toString() ;
+                    if(btntext.equals("DEL/CLR") || btntext.equals("="))
                         continue;
 
 
@@ -199,6 +199,8 @@ class Utility extends AppCompatActivity{
                     case '*' : res = (a*b) ; break ;
                     case 'x' : res = (a*b) ; break ;
                     case '/' : res = (a/b) ; break ;
+                    case '^' : res = ( Math.pow(a , b)) ; break ;
+                    case '$' : res = ( Math.pow(a , b)) ; break ;
                 }
 
                 St.push(res) ;
@@ -267,7 +269,7 @@ class Utility extends AppCompatActivity{
                     case '(' : St.push("(") ; break ;
                     case ')' :  while((temp = St.pop())!="(")
                     {
-                        postfix+= St.pop() ;
+                        postfix+= temp ;
                     }
 
                         break ;

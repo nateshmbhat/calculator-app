@@ -6,7 +6,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/editTextres"
@@ -24,7 +26,7 @@
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="355dp"
-            android:layout_height="405dp"
+            android:layout_height="330dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.517"
@@ -139,29 +141,51 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/btnDEL"
+                    android:id="@+id/btnExp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DEL" />
+                    android:text="^" />
 
                 <Button
                     android:id="@+id/btnAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="+" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(" />
+
+                <Button
+                    android:id="@+id/button9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")" />
+
+                <Button
+                    android:id="@+id/btnDEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DEL/CLR" />
+
+                <Button
+                    android:id="@+id/btnEqual"
+                    android:layout_height="wrap_content"
+                    android:layout_width= "wrap_content"
+                    android:text="=" />
             </TableRow>
 
         </TableLayout>
 
-        <Button
-            android:id="@+id/btnEqual"
-            android:layout_width="356dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="148dp"
-            android:text="="
-            app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
-            app:layout_constraintEnd_toStartOf="@+id/tableLayout"
-            app:layout_constraintStart_toEndOf="@+id/tableLayout" />
     </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>
