@@ -5,163 +5,59 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.util.Log ;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
-int getpreced(String c)
-{
-    switch(c){
-        case "#" :
-        case "(" : return 0 ;
-        case "+" :
-        case "-" : return 1 ;
-        case "*" :
-        case "x" :
-        case "/" : return 2 ;
-        case "^" :
-        case "$" : return 3 ;
-        default  : return -1 ;
-    }
-}
-
-
-
-    String evaluatePostfix(String s)
-    {
-        double res = 0.00 ;
-        Stack<Double> St = new Stack<Double>() ;
-
-        for(int i= 0 ; i< s.length() ; i++)
-        {
-            if(Character.isDigit(s.charAt(i)))
-                St.push((double)Character.digit(s.charAt(i) , 10 )) ;
-
-            else{
-                double b  = St.pop() ;
-                double a  = St.pop() ;
-                switch (s.charAt(i))
-                {
-                    case '+' : res = (a+b) ; break ;
-                    case '-' : res = (a-b) ; break ;
-                    case '*' : res = (a*b) ; break ;
-                    case '/' : res = (a/b) ; break ;
-                }
-
-                St.push(res) ;
-            }
-        }
-
-        return St.pop().toString() ;
-    }
-
-
-
-
-    String getPostfix(String s)
-    {
-//        TODO : check validity of input string and make it work for longer lenth numbers
-
-        Stack<String> St = new Stack<String>()  ;
-        St.push("#") ;
-
-        String postfix  = new String() ;
-
-        String temp =""  ;int  runlength = 1  ;
-        String operand = "" ;
-
-
-        for(int i =0 ; i<s.length() ; i+=runlength)
-        {
-            operand="" ;
-
-            runlength = 1 ;
-
-            char c =s.charAt(i) ;
-            if(c==' ') continue ;
-
-
-            if(Character.isDigit(c))
-                operand+=c ;
-
-            while(i+runlength < s.length() && operand.length()>0 && Character.isDigit(s.charAt(i+runlength)))
-            {
-                operand+=s.charAt(i+runlength) ;
-                runlength++ ;
-            }
-
-
-            if(operand.length()>0)
-            {
-//                Its a number : handle here
-                postfix+=("|" + operand + "|") ;
-            }
-
-            else{
-//                Its an operator of bracket handle it here
-                switch(c)
-              {
-
-                case '(' : St.push("(") ; break ;
-                case ')' :  while((temp = St.pop())!="(")
-                {
-                    postfix+= St.pop() ;
-                }
-
-                break ;
-
-                default:
-                    while(getpreced(St.peek())>=getpreced(""+c))
-                        postfix+=St.pop() ;
-
-                    St.push(c+"") ;
-
-              }
-            }
-        }
-
-
-        while(St.peek()!="#")
-            postfix+=St.pop() ;
-
-        return postfix ;
-    }
-
-
+    Utility utilobj = new Utility() ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String postfix = getPostfix("8+7*1+2-2*8") ;
-//        String result = evaluatePostfix(postfix) ;
-
-        Log.d("Postfix" , postfix) ;
-//        Log.d("Postfix" , "Result is : " + result) ;
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final EditText editTextRes = (EditText) findViewById(R.id.editTextres) ;
 
-        editTextRes.setEnabled(false);
+        final TextView editTextRes = (TextView) findViewById(R.id.editTextres) ;
 
         TableLayout layouttable = (TableLayout)findViewById(R.id.tableLayout) ;
-
         final Button btDEL = findViewById(R.id.btnDEL) ;
-
         final Button btEqual = findViewById(R.id.btnEqual) ;
+
+
+        btDEL.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                editTextRes.setText("");
+                return false ;
+            }
+        });
+
         btEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Log.d("Postfix" , getPostfix(btEqual.getText().toString())) ;
 
-            }
+                if(editTextRes.getText().toString().isEmpty())
+                    return ;
+
+                String postfix  = "" ;
+                String result  = ""  ;
+
+                postfix = utilobj.getPostfix(editTextRes.getText().toString()) ;
+                result = utilobj.evaluatePostfix(postfix) ;
+
+                Log.d("Postfix" , postfix) ;
+                Log.d("Postfix" , "Result is : " + result) ;
+                editTextRes.setText(result);
+
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+           }
         });
 
 
@@ -170,9 +66,11 @@ int getpreced(String c)
             @Override
             public void onClick(View view) {
                 String temp = editTextRes.getText().toString() ;
+                if(temp.toString()=="0")
+                    temp = "" ;
+
                 if(temp.length()>0)
                     editTextRes.setText(temp.substring(0 , temp.length()-1));
-
             }
         });
 
@@ -203,11 +101,12 @@ int getpreced(String c)
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if(editTextRes.getText().toString()=="0")
+                                editTextRes.setText("");
 
                             Log.d( "Button Press : "  , button.getText()+ " pressed ." ) ;
                             editTextRes.append(button.getText()) ;
 
-                            Toast.makeText(MainActivity.this, ((Button)view).getText(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -219,6 +118,149 @@ int getpreced(String c)
 
 
 
-class utility extends AppCompatActivity{
 
-};
+
+class Utility extends AppCompatActivity{
+
+    boolean gotResult_flag = false ;
+    String result = new String() ;
+
+
+    public boolean isGotResult_flag() {
+        return gotResult_flag;
+    }
+
+    public void setGotResult_flag(boolean gotResult_flag) {
+        this.gotResult_flag = gotResult_flag;
+    }
+
+
+    int getpreced(String c)
+    {
+        switch(c){
+            case "#" :
+            case "(" : return 0 ;
+            case "+" :
+            case "-" : return 1 ;
+            case "*" :
+            case "x" :
+            case "/" : return 2 ;
+            case "^" :
+            case "$" : return 3 ;
+            default  : return -1 ;
+        }
+    }
+
+
+
+    String evaluatePostfix(String s)
+    {
+
+        double res = 0.00 ;
+        Stack<Double> St = new Stack<Double>() ;
+        String operand = "" ;
+
+
+        for(int i= 0 ; i< s.length() ;)
+        {
+            if(s.charAt(i)=='|')
+            {
+                operand = s.substring(i+1 , s.indexOf('|' , i+1) ) ;
+                St.push(Double.parseDouble(operand)) ;
+                i+=operand.length()+2 ; continue;
+            }
+
+
+            else{
+                double b  = St.pop() ;
+                double a  = St.pop() ;
+                switch (s.charAt(i))
+                {
+                    case '+' : res = (a+b) ; break ;
+                    case '-' : res = (a-b) ; break ;
+                    case '*' : res = (a*b) ; break ;
+                    case 'x' : res = (a*b) ; break ;
+                    case '/' : res = (a/b) ; break ;
+                }
+
+                St.push(res) ;
+            }
+            i++ ;
+        }
+
+        this.result  = St.peek().toString() ;
+        return St.pop().toString() ;
+    }
+
+
+
+
+    String getPostfix(String s)
+    {
+//        TODO : check validity of input string
+
+        Stack<String> St = new Stack<String>()  ;
+        St.push("#") ;
+
+        String postfix  = new String() ;
+
+        String temp =""  ;int  runlength = 1  ;
+        String operand = "" ;
+
+
+        for(int i =0 ; i<s.length() ; i+=runlength)
+        {
+            operand="" ;
+
+            runlength = 1 ;
+
+            char c =s.charAt(i) ;
+            if(c==' ') continue ;
+
+            if(Character.isDigit(c))
+                operand+=c ;
+
+            while(i+runlength<s.length() && (Character.isDigit(c) || c=='.') && (Character.isDigit(s.charAt(i+runlength)) || s.charAt(i+runlength)=='.'))
+            {
+                operand+=s.charAt(i+runlength) ;
+                runlength++ ;
+            }
+
+
+            if(operand.length()>0)
+            {
+//                Its a number : handle here
+                postfix+=("|" + operand + "|") ;
+            }
+
+
+            else{
+//                Its an operator of bracket handle it here
+                switch(c)
+                {
+
+                    case '(' : St.push("(") ; break ;
+                    case ')' :  while((temp = St.pop())!="(")
+                    {
+                        postfix+= St.pop() ;
+                    }
+
+                        break ;
+
+                    default:
+                        while(getpreced(St.peek())>=getpreced(""+c))
+                            postfix+=St.pop() ;
+
+                        St.push(c+"") ;
+                }
+            }
+        }
+
+
+        while(St.peek()!="#")
+            postfix+=St.pop() ;
+
+        return postfix ;
+    }
+
+} ;
