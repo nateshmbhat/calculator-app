@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">calculator</string>
+    <string name="app_name">Calculator</string>
     <string name="string1">string1</string>
 
     <array name="contries">

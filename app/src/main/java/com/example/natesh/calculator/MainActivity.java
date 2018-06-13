@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         final Button btDEL = findViewById(R.id.btnDEL) ;
         final Button btEqual = findViewById(R.id.btnEqual) ;
 
+        Toast.makeText(getApplicationContext(), "Developed by Natesh", Toast.LENGTH_SHORT).show();
 
         btDEL.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
