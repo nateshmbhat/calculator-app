@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     String getPostfix(String s)
     {
 
+//        TODO : check validity of input string and make it work for longer lenth numbers
+
         Stack<Character> St = new Stack<Character>()  ;
         String postfix  = new String() ;
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             postfix+=St.pop() ;
 
         return postfix ;
+
     }
 
 
@@ -80,29 +83,19 @@ public class MainActivity extends AppCompatActivity {
 
         TableLayout layouttable = (TableLayout)findViewById(R.id.tableLayout) ;
 
-//        Button bt1 = findViewById(R.id.btn1) ;
-//        Button bt2 = findViewById(R.id.btn2) ;
-//        Button bt3 = findViewById(R.id.btn3) ;
-//        Button bt4 = findViewById(R.id.btn4) ;
-//        Button bt5 = findViewById(R.id.btn5) ;
-//        Button bt6 = findViewById(R.id.btn6) ;
-//        Button bt7 = findViewById(R.id.btn7) ;
-//        Button bt8 = findViewById(R.id.btn8) ;
-//        Button bt9 = findViewById(R.id.btn9) ;
-//        Button bt0 = findViewById(R.id.btn0) ;
-//        Button btPlus = findViewById(R.id.btnAdd) ;
-//        Button btDiv = findViewById(R.id.btnDivide) ;
-//        Button btMul = findViewById(R.id.btnMultiply) ;
         Button btDEL = findViewById(R.id.btnDEL) ;
+
 
 
         final Button btEqual = findViewById(R.id.btnEqual) ;
         btEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Button Equals : " , btEqual.getText().toString()) ;
+                Log.d("Postfix" , getPostfix(btEqual.getText().toString())) ;
+
             }
         });
+
 
 
         btDEL.setOnClickListener(new View.OnClickListener() {
@@ -119,10 +112,12 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i =0 ; i< layouttable.getChildCount() ; i++ )
         {
+
             View v =  layouttable.getChildAt(i) ;
 
             if(v.getClass()==TableRow.class )
             {
+
                 for(int j =0 ; j < ((TableRow)v).getChildCount() ; j++ )
                 {
 
@@ -130,15 +125,19 @@ public class MainActivity extends AppCompatActivity {
                     final Button button = (Button)((TableRow)v).getChildAt(j) ;
                     Log.d("Button : " , button.getText().toString()) ;
 
+
                     if(button.getText().toString().equals("DEL"))
                         continue;
+
 
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
+
                             Log.d( "Button Press : "  , button.getText()+ " pressed ." ) ;
                             editTextRes.append(button.getText()) ;
+
 
                         }
                     });
