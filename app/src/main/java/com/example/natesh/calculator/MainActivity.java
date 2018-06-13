@@ -50,11 +50,21 @@ public class MainActivity extends AppCompatActivity {
                 String postfix  = "" ;
                 String result  = ""  ;
 
+                try{
+
                 postfix = utilobj.getPostfix(editTextRes.getText().toString()) ;
                 Log.d("Postfix " , postfix) ;
 
                 result = utilobj.evaluatePostfix(postfix) ;
                 Log.d("Result" , result) ;
+
+                }
+                catch(Exception e){
+                    Log.e("TestError" , e.toString()) ;
+                    editTextRes.setText("Invalid Expression !");
+                    return ;
+                }
+
 
                 if(result.charAt(result.length()-1)=='0' && result.charAt(result.length()-2)=='.')
                     result = result.substring(0 , result.length()-2) ;
@@ -229,18 +239,17 @@ class Utility extends AppCompatActivity{
             if(Character.isDigit(c))
                 operand+=c ;
 
-            else if ((c=='-' && !Character.isDigit(i-1)))
+            else if ((c=='-' && (i==0 || !Character.isDigit(s.charAt(i-1)))))
             {
                 operand+= Character.toString(c)+s.charAt(i+1) ;
                 i+=1 ;
             }
 
-            while(i+runlength<s.length() && (Character.isDigit(c) || c=='.') && (Character.isDigit(s.charAt(i+runlength)) || s.charAt(i+runlength)=='.'))
+            while(i+runlength<s.length() && (Character.isDigit(c) || c=='.' || c=='E') && (Character.isDigit(s.charAt(i+runlength)) || s.charAt(i+runlength)=='.' || s.charAt(i+runlength)=='E'))
             {
                 operand+=s.charAt(i+runlength) ;
                 runlength++ ;
             }
-
 
             if(operand.length()>0)
             {
@@ -250,7 +259,7 @@ class Utility extends AppCompatActivity{
 
 
             else{
-//                Its an operator of bracket handle it here
+//                Its an operator or bracket handle it here
                 switch(c)
                 {
 
