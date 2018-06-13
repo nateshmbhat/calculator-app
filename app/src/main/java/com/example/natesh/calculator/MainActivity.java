@@ -2,6 +2,7 @@ package com.example.natesh.calculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.ChangeTransform;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,13 @@ public class MainActivity extends AppCompatActivity {
                 String result  = ""  ;
 
                 postfix = utilobj.getPostfix(editTextRes.getText().toString()) ;
+                Log.d("Postfix " , postfix) ;
+
                 result = utilobj.evaluatePostfix(postfix) ;
+                Log.d("Result" , result) ;
+
+                if(result.charAt(result.length()-1)=='0' && result.charAt(result.length()-2)=='.')
+                    result = result.substring(0 , result.length()-2) ;
 
                 Log.d("Postfix" , postfix) ;
                 Log.d("Postfix" , "Result is : " + result) ;
@@ -202,11 +209,17 @@ class Utility extends AppCompatActivity{
         Stack<String> St = new Stack<String>()  ;
         St.push("#") ;
 
+        if(s.indexOf('E')>0)
+        {
+
+        }
+
         String postfix  = new String() ;
 
         String temp =""  ;int  runlength = 1  ;
         String operand = "" ;
 
+        s = '0' + s ;
 
         for(int i =0 ; i<s.length() ; i+=runlength)
         {
@@ -217,7 +230,7 @@ class Utility extends AppCompatActivity{
             char c =s.charAt(i) ;
             if(c==' ') continue ;
 
-            if(Character.isDigit(c))
+            if(Character.isDigit(c) )
                 operand+=c ;
 
             while(i+runlength<s.length() && (Character.isDigit(c) || c=='.') && (Character.isDigit(s.charAt(i+runlength)) || s.charAt(i+runlength)=='.'))
@@ -248,6 +261,8 @@ class Utility extends AppCompatActivity{
                         break ;
 
                     default:
+                        Log.d("Debug" , St.peek()) ;
+
                         while(getpreced(St.peek())>=getpreced(""+c))
                             postfix+=St.pop() ;
 
