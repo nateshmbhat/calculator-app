@@ -89,7 +89,7 @@ int getpreced(String c)
             if(Character.isDigit(c))
                 operand+=c ;
 
-            while(i+runlength < s.length() && Character.isDigit(s.charAt(i+runlength)))
+            while(i+runlength < s.length() && operand.length()>0 && Character.isDigit(s.charAt(i+runlength)))
             {
                 operand+=s.charAt(i+runlength) ;
                 runlength++ ;
@@ -120,7 +120,6 @@ int getpreced(String c)
                         postfix+=St.pop() ;
 
                     St.push(c+"") ;
-
 
               }
             }
@@ -208,7 +207,7 @@ int getpreced(String c)
                             Log.d( "Button Press : "  , button.getText()+ " pressed ." ) ;
                             editTextRes.append(button.getText()) ;
 
-                            Toast.makeText(MainActivity.this, ((Button)view), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, ((Button)view).getText(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
