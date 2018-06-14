@@ -222,11 +222,6 @@ class Utility extends AppCompatActivity{
         Stack<String> St = new Stack<String>()  ;
         St.push("#") ;
 
-        if(s.indexOf('E')>0)
-        {
-
-        }
-
         String postfix  = new String() ;
 
         String temp =""  ;int  runlength = 1 ;

@@ -15,6 +15,7 @@
             android:layout_width="351dp"
             android:layout_height="44dp"
             android:layout_marginTop="40dp"
+            android:hint="0"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -37,8 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
+                android:layout_marginVertical="1mm"
                 android:layout_alignParentTop="true"
                 android:textAlignment="center">
+
 
 
                 <Button
@@ -69,6 +72,7 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
+                android:layout_marginVertical="1mm"
 
                 <Button
                     android:id="@+id/btn4"
@@ -97,6 +101,7 @@
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="1mm"
                 android:layout_height="match_parent">
 
                 <Button
@@ -157,6 +162,7 @@
             <TableRow
                 android:id="@+id/tableRow"
                 android:layout_width="match_parent"
+                android:layout_marginVertical="1mm"
                 android:layout_height="match_parent">
 
                 <Button
