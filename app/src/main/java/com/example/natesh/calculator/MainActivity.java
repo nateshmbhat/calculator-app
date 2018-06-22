@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
                 try{
 
-                postfix = utilobj.getPostfix(editTextRes.getText().toString()) ;
+                String expressionString = new String() ;
+                expressionString = editTextRes.getText().toString().replace('−' , '-').replace('÷' , '/').replace('×' , 'x') ;
+                postfix = utilobj.getPostfix(expressionString) ;
                 Log.d("Postfix " , postfix) ;
 
                 result = utilobj.evaluatePostfix(postfix) ;
